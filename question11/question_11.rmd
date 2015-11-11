@@ -1,0 +1,118 @@
+---
+title: "EEB416_Exam_Question_11"
+author: "Tom McBrien"
+date: "November 4, 2015"
+output: pdf_document
+---
+
+##Loading Data##
+```{r loading data}
+exons <- read.delim("Homo_sapiens.GRCh38.82.abinitio.exons.gtf", header = FALSE)
+transcripts <- read.delim("Homo_sapiens.GRCh38.82.abinitio.transcripts.gtf", header = FALSE)
+```
+
+##Adding Column Names##
+```{r adding column names}
+names(exons) <- c("Chromosome", "Source", "Type", "Start", "End")
+names(transcripts) <- c("Chromosome", "Source", "Type", "Start", "End")
+```
+
+##Making a Length Column##
+```{r adding column}
+exons$length <- (exons$End - exons$Start)
+transcripts$length <- (transcripts$End - transcripts$Start)
+```
+
+###Checking Progress So Far###
+```{r head check}
+head(exons)
+head(transcripts)
+```
+
+##Looking at Mean Values by Chromosome##
+```{r subsetting}
+exon_means <- aggregate(exons[ ,10], list(exons$Chromosome), mean)
+transcript_means <- aggregate(transcripts[ ,10], list(transcripts$Chromosome), mean)
+```
+
+###Progress Check###
+
+```{r head check 2}
+head(exon_means)
+head(transcript_means)
+```
+
+##Making a Standard Error Equation##
+```{r standard error making}
+std.err <- function(x) {sd(x)/sqrt(length(x))}
+```
+
+##Calculating Standard Error##
+```{r standard error calculation}
+exon_SE <- aggregate(exons[ ,10], list(exons$Chromosome), std.err)
+transcripts_SE <- aggregate(transcripts[ ,10], list(transcripts$Chromosome), std.err)
+```
+
+##Combining and Cleaning##
+```{r combining, tidy=TRUE, tidy.opts=list(width.cutoff=55)}
+exons_merged <- merge(exon_means, exon_SE, by.x="Group.1", by.y="Group.1")
+transcripts_merged <- merge(transcript_means, transcripts_SE, by.x = "Group.1", by.y = "Group.1")
+both_merged <- merge(exons_merged, transcripts_merged, by.x="Group.1", by.y="Group.1")
+names(both_merged) <- c("chromosome", "exon_length", "standard error", "transcript length", "standard error")
+both_merged_chromosomes_only <- both_merged[-23:-383,] #getting rid of weird non-chromosome rows
+```
+
+##Making Table##
+```{r table making}
+length_means_table <- as.table(as.matrix(both_merged_chromosomes_only))
+length_means_table
+```
+
+##Subsetting for X and Y Chromosome Lengths##
+```{r subsetting for X and Y length, tidy=TRUE, tidy.opts=list(width.cutoff=55)}
+X_exon_lengths <- subset(exons, exons$Chromosome=='X')
+Y_exon_lengths <- subset(exons, exons$Chromosome=='Y')
+X_Y_exon_lengths <- subset(exons, exons$Chromosome=='X' | exons$Chromosome=='Y') 
+#subsetting to get rid of non-sex chromosomes
+X_Y_exon_lengths_adjusted <- subset(X_Y_exon_lengths,X_Y_exon_lengths$length < 2500) 
+#plot was skewed by large lengths that made up just 30/13349, or about 0.2% of sequences, so I took them out. 
+#To see plot with these sequences, just substitute X_Y_exon_lengths into ggplot equation.
+head(X_Y_exon_lengths) #checking to make sure "X" chromosome was taken
+tail(X_Y_exon_lengths) #checking for "Y"
+```
+
+##Frequency Histogram Of Exon Lengths##
+```{r frequency histogram, tidy=TRUE, tidy.opts=list(width.cutoff=55)}
+install.packages("ggplot2",repos = "http://cran.rstudio.com/")
+library(ggplot2)
+ggplot(X_Y_exon_lengths_adjusted, aes(X_Y_exon_lengths_adjusted$length, fill = X_Y_exon_lengths_adjusted$Chromosome)) + geom_histogram(binwidth=1) + geom_density(alpha = 0.1)
+```
+
+##Loading .bed File and Manipulating To Compute Chromosome Lengths##
+```{r loading .bed, tidy=TRUE, tidy.opts=list(width.cutoff=60)}
+exons_and_transcripts <- read.delim("Homo_sapiens.GRCh38.82.abinitio.bed", header = FALSE)
+names(exons_and_transcripts) <- c("Chromosome", "Type", "Start", "End")
+start_position <- aggregate(exons_and_transcripts$Start, by = list(exons_and_transcripts$Chromosome), min) #finding smallest value in start for each chromosome
+end_position <- aggregate(exons_and_transcripts$Start, by = list(exons_and_transcripts$Chromosome), max) 
+start_and_end <- merge(start_position, end_position, by.x="Group.1", by.y="Group.1")
+names(start_and_end) <- c("chromosome", "start", "end")
+start_and_end$chromosomelength <- (start_and_end$end - start_and_end$start) #making new row of chromosome length based on max base pair minus min base pair
+start_and_end_chromosomes_only <- start_and_end[-23:-383,] #getting rid of weird non-chromosome rows
+head(start_and_end_chromosomes_only) #checking
+```
+
+##Combining Exon Means and Chromosome Lengths to Compare##
+```{r merging and editing, tidy=TRUE, tidy.opts=list(width.cutoff=55)}
+exon_means_for_merge <- exon_means[-23:-383,]
+names(exon_means_for_merge) <- c("chromosome", "mean_exon_length")
+exon_means_chromosome_lengths <- merge(start_and_end_chromosomes_only, exon_means_for_merge, by.x = "chromosome", by.y = "chromosome")
+```
+
+##Plotting and Comparing Chromosome Length and Exon Length##
+```{r plotting and correlation, tidy=TRUE, tidy.opts=list(width.cutoff=55)}
+plot(exon_means_chromosome_lengths$chromosomelength, exon_means_chromosome_lengths$mean_exon_length, main="Scatterplot of Mean Exon Length vs. Chromosome Length", xlab = "Chromosome Length", ylab = "Exon Length")
+abline(lm(exon_means_chromosome_lengths$chromosomelength~exon_means_chromosome_lengths$mean_exon_length),col="blue") #adding trendline
+cor(exon_means_chromosome_lengths$chromosomelength, exon_means_chromosome_lengths$mean_exon_length)
+```
+
+Because the correlation coefficient is `r cor(exon_means_chromosome_lengths$chromosomelength, exon_means_chromosome_lengths$mean_exon_length)`, there does not appear to be a significant relationship.

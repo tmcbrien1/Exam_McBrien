@@ -1,0 +1,25 @@
+Now, find a nucleotide sequence from the same gene from Jatropha curcas — what is its accession number?
+
+Accession number: NM_001308783.1
+
+1. What type of blast is the most appropriate in this case?
+
+Since we have a protein sequence but we want to find a nucleotide sequence, a tblastn would be the most appropriate search.
+
+2. When you do the blast to the nr database at NCBI, how many hits do you return?
+
+124 hits returned.
+
+3. Using the taxonomy report, indicate from how many species you found homologs.
+
+38 species with homologs.
+
+4. Download fasta files of the top 6 hits – pick sequences that are of similar length to your sequence from curcas, and have e-values that suggest significant homology. List the accession numbers from these top 6 hits and their e-values from your blast (3 pts).
+
+XM_002302392.2 1e-130
+XM_011018849.1 7e-124
+FQ395161.1 1e-117
+XM_007227653.1 3e-117
+NM_001288869.1 2e-116
+XM_008222055.1 4e-115
+

@@ -1,0 +1,17 @@
+ Using the Homo_sapiens.GRCh38.cds.all.fa file, answer the following questions. Supply the unix command you used followed by the answer.
+
+1. How many sequences are in the fasta file?
+
+Command: grep -c ">" Homo_sapiens.GRCh38.cds.all.fa
+Answer: 101933
+
+2. How many lines are in the fasta file?
+
+Command: wc -l Homo_sapiens.GRCh38.cds.all.fa
+Answer: 2066758
+
+3. Is the adapter sequence 'AGATCGG' present within the file?
+
+Command: grep -c "AGATCGG" Homo_sapiens.GRCh38.cds.all.fa
+Answer: Yes, it is present 2950 times.
+

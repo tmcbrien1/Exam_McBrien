@@ -1,0 +1,26 @@
+You are interested in floral color evolution in the spurge family of plants. Yoiu want to find really close homologs as well as homologs from distantly related organisms. You elect to do this in two different ways, first you decide to:
+
+1. Find a protein sequence of an R2R3-MYB transcription factor from Jatropha curcas -- what is its accession number?
+
+Its accession number is AFV73403.
+
+2. What type of blast is most appropriate?
+
+Blastp.
+
+3. When you do the blast to the nr database at NCBI, how many hits do you return?
+
+100 hits.
+
+4. Using the taxonomy report, indicate from how many species you found homologs.
+
+44 species.
+
+5. Download fasta files of the top 6 hits — pick sequences that are of similar length to your sequence from J. curcas, have e-values that suggest significant homology, and are from different species. List the accession numbers from these top 6 hits and their e-values from your blast.
+
+XP_002302428.2 6e-158
+XP_011017151.1 2e-153
+XP_002285015.1 6e-150
+XP_007227715.1 1e-148
+XP_008220277.1 6e-147
+XP_006434697.1 2e-147

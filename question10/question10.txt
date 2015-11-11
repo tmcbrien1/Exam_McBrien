@@ -1,0 +1,19 @@
+Perform the following tasks. Supply the unix command you used and the file showing your changes. Each question is worth 5 points.
+
+1. At the command line, change the name of the fasta headers in the file Homo_sapiens.GRCh38.cds.all.fa from their current name to a linear sequence, with the first entry with the fasta header >1, the second >2, and so on.
+
+Command: sed 's/.*ENST.*/>/' Homo_sapiens.GRCh38.cds.all.fa | awk '/>/{print $0(++i)}!/>/' > Homo_sapiens.GRCh38.cds.all.sed_and_awk_modified.fa
+File Name: Homo_sapiens.GRCh38.cds.all.sed_and_awk_modified.fa
+
+2. Using the file Homo_sapiens.GRCh38.82.abinitio.gtf (link here), made a .bed file that includes the following information, in this order: chromosome of the feature, type of feature (ie exon or transcript) starting bp, and ending bp.
+
+Command: awk '!/^#/ { print $1 "\t" $3 "\t" $4-1 "\t" $5 }' Homo_sapiens.GRCh38.82.abinitio.gtf > Homo_sapiens.GRCh38.82.abinitio.bed
+File Name: Homo_sapiens.GRCh38.82.abinitio.bed
+
+3. Use grep to make two files from Homo_sapiens.GRCh38.82.abinitio.gtf: one with only transcripts and one with only exons. Submit these as part of question 10; you will be using them again later.
+
+Command for Transcripts: grep "transcript" Homo_sapiens.GRCh38.82.abinitio.gtf > Homo_sapiens.GRCh38.82.abinitio.transcripts.gtf
+Command for Exons: grep "exon" Homo_sapiens.GRCh38.82.abinitio.gtf > Homo_sapiens.GRCh38.82.abinitio.exons.gtf
+File Name for Transcripts: Homo_sapiens.GRCh38.82.abinitio.transcripts.gtf
+File Name for Exons: Homo_sapiens.GRCh38.82.abinitio.exons.gtf
+

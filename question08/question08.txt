@@ -1,0 +1,30 @@
+You have decided, as part of your dissertation, to investigate metapopulation dynamics of the Glanville fritillary butterfly and thus you need to measure population structure across a landscope you would like to first assess what genomic tools are available for this non-model organism.
+
+1. Are there any groups that have developed tools for this species, and if so, what is their website address?
+
+Yes! The Glanville fritillary butterfly genome project out of the University of Helsinki's Metapopulation Research Centre. URL: http://www.helsinki.fi/science/metapop/research/mcgenome.html
+
+2. What tools are they suggesting will be developed?
+
+I do not see any explicit discussion of tools yet to be developed, but they still have some unplaced scaffolds, so perhaps they are working on getting those placed onto the superscaffolds to cover the entire assembled genome.
+
+3. What tools have they developed?
+
+They've developed superscaffolds covering 72% of the assembled genome, many scaffolds and contigs, a linkage map for both the superscaffolds and scaffolds, nucleotide sequences, protein sequences, gene features for protein-coding genes on scaffolds, gene features for non-coding genes on scaffolds, gene features for mitochondrial DNA on scaffolds, start and stop sites for protein-coding genes on superscaffolds, a transposable element library, protein descriptions, and KEGG pathways. 
+
+Tool List:
+    -Lep-MAP software to construct accurate linkage maps using high-
+density SNP data 
+    -MIP Scaffolder for genome scaffolding .
+    -LiSs (Linkage map Superscaffolder) 
+    -Coral and HybridSHREC for read error correction 
+    -PANNZER for functional annotation 
+    -EPT and SANS for orthology prediction 
+
+4. Can you find this information on NCBI?
+
+You can find information about the project, but not necessarily the tools developed. http://www.ncbi.nlm.nih.gov/nuccore/APLT00000000.1/
+
+5. Describe how you would take sequences that may be available for this species and develop a strategy for developing more SNPs that are not micro-array dependent. You will need to delve into outside resources prior to formulating a good answer!
+
+There are a lot of tools for looking at data in a micro-array-independent manner, and the landscape is constantly changing. Overall, however, it seems like the “limma” system (originally developed for microarrays, but adapted since then) seems most useful. Specifically, limma+voom seems like a good method: it was developed in 2014, so it is relatively recent (Law, CW, Chen, Y, Shi, W, and Smyth, GK (2014). Voom: precision weights unlock linear model analysis tools for RNA-seq read counts. Genome Biology 15, R29.) The limma user’s guide was last revised on 8 September 2015, so it looks as if the developers are good about updating and refining the package (https://www.bioconductor.org/packages/release/bioc/vignettes/limma/inst/doc/usersguide.pdf). And multiple surveys have chosen limma as a superior, though not perfect, RNA-seq tool (http://www.genomebiology.com/2013/14/9/R95) (http://www.biomedcentral.com/1471-2105/14/91). The overall verdict is that limma mirrors “reality” well, is computationally fast, returns few false positives, and returns a decent amount of true positives when sample sizes are large. 

@@ -1,0 +1,20 @@
+1. Should 'ecological modeling of populations of organisms' be considered a bioinformatics research area or not? Briefly explain your answer.
+
+While specific cases may or may not be appropriate for bioinformatics, ecological modeling of populations should overall be considered a bioinformatics research area because it could potentially involve large amounts of metagenomic data. For example, using bioinformatics techniques to look at gene flow and speciation events over time could be a powerful technique. Similarly, looking for homologous genes could help genotype different organisms within a population.
+
+2. True/False. All molecular sequence data available at NCBI are peer-reviewed and tehrefore are more reliable than sequences obtained from other data bank services.
+
+False. Some other databases, such as RefSeq, are manually curated and very reliable.
+
+3. A database search returns a match with an E-value of 3.4e-178. How do you interpret this result?
+
+The e-value is an estimate of the amount of times you would expect a result at least this extreme to be observed by chance. The closer to 0, the less likely. So an E-value of 3.4e-178 is extremely close to zero, meaning the resulting match is very likely to be significant.
+
+4. What are two ways that we increase the copy number of our target DNA before sequencing it?
+
+You can increase copy number either by cloning it in a bacterial vector or by PCR amplification.
+
+5. How many genomes do eukaryotes generally have per cell? Prokaryotes?
+
+Eukaryotes: two to three per cell. Nuclear genome, mitochondrial genome, chloroplast genome (plants/algae only).
+Prokaryotes: just one, the nuclear genome. They can have plasmids, which complicates things a bit, but in general just one.
